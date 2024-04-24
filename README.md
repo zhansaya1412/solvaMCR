@@ -24,4 +24,33 @@ spring.flyway.schemas=public
 - **Lombok**: Для упрощения написания кода с помощью аннотаций.
 - **MapStruct**: Для маппинга объектов.
 - **JUnit и Mockito**: Для написания тестов.
+  
+### DOCKER
+Запуск сервиса через docker compose
+
+**Докер файл:** Dockerfile находится в корне проекта. (docker-compose.yml)
+
+**Эндпоинты:**
+API Client
+- **localhost:8888/api/client/limits:** По данному адресу получаем список лимитов.
+- **localhost:8888/api/client/transactions/limit-exceeded:** Получаем список транзакций, превышающих лимит.
+- **localhost:8888/api/client/limit:** Устанавливаем новый лимит.
+
+API Transations
+- **localhost:8888/api/transactions/save** По данному адресу отправляется новая транзакция в формате JSON:
+{
+    "accountFrom": "8989898980",
+    "accountTo": "8789898900",
+    "currencyShortName": "RUB",
+    "amount": 67000,
+    "dateTime": "2024-04-24T23:11:53",
+    "category": "GOODS"
+}
+
+API Currency
+- **localhost:8888/currency/update-daily-rates** По данному адресу происходит запрос на внешний сервер alphavantage, чтобы получить курс валют. 
+
+
+
+
 
