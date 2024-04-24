@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  solva-project-backend-service:
+    image: 'zhansaya14/project-solva-repo'
+    container_name: solva-backend-container
+    depends_on:
+      - my-project-database-service
+    environment:
+      - SPRING_APPLICATION_NAME=solvaMCR
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://my-project-database-service:5432/solva_mcr
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=none
+      - feign.client.alphaVantageClient.url=https://www.alphavantage.co
+      - CURRENCY_UPDATE_SCHEDULE=0 0 10 * * *
+      - SPRING_FLYWAY_BASELINE_ON_MIGRATE=true
+      - SPRING_FLYWAY_LOCATIONS=classpath:db/migration
+      - SPRING_FLYWAY_SCHEMAS=public
+    ports:
+      - "8888:8001"
+
+  my-project-database-service:
+    image: 'postgres'
+    container_name: solva-bd
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=solva_mcr
+    ports:
+      - "2345:5432"
